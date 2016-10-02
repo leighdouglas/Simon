@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="nyc.c4q.leighdouglas.simon.SimonGame">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_weight="1"
+    >
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#9575CD"
+        android:id="@+id/topLeft"
+        android:onClick="buttonOnClick"
+
+
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#4DB6AC"
+        android:id="@+id/bottomLeft"
+        android:onClick="buttonOnClick"/>
+
+</LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+
+            >
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="#FF9800"
+                android:id="@+id/topRight"
+                android:onClick="buttonOnClick"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="#EC407A"
+                android:id="@+id/bottomRight"
+                android:onClick="buttonOnClick"/>
+        </LinearLayout>
+
+
+</LinearLayout>
+    <TextView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:text=""
+        android:id="@+id/roundCounter"
+        android:background="@drawable/round_counter_background"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:textColor="#ffffff"
+        android:layout_margin="16dp"
+        android:textStyle="bold"
+        android:layout_alignParentBottom="true"
+
+        />
+
+    <TextView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:text=""
+        android:id="@+id/highScore"
+        android:background="@drawable/highscore_counter_background"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:textColor="#ffffff"
+        android:layout_margin="16dp"
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+
+        />
+</RelativeLayout>

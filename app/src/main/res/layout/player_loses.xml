@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:text="Game Over"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:id="@+id/player_lost"/>
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:layout_below="@id/player_lost"
+        android:layout_centerInParent="true"
+        android:text="Play again?"
+        android:onClick="onClick"/>
+
+</RelativeLayout>
