@@ -85,19 +85,4 @@
 
         />
 
-    <TextView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:text=""
-        android:id="@+id/highScore"
-        android:background="@drawable/highscore_counter_background"
-        android:gravity="center"
-        android:textSize="24sp"
-        android:textColor="#ffffff"
-        android:layout_margin="16dp"
-        android:textStyle="bold"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-
-        />
 </RelativeLayout>

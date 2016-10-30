@@ -27,4 +27,9 @@ public class YouLose extends AppCompatActivity {
         Intent j = new Intent(getApplicationContext(), SimonGame.class);
         startActivity(j);
     }
+
+    public void onBackPressed() {
+        Intent j = new Intent(getApplicationContext(), OpenApp.class);
+        startActivity(j);
+    }
 }

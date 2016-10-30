@@ -14,12 +14,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 import android.os.Handler;
 
 
@@ -32,20 +36,16 @@ public class SimonGame extends AppCompatActivity {
     private Button btnBottomLeft;
     List<Integer> userInput = new ArrayList<>();
     List<Integer> cpuInput = new ArrayList<>();
-    int numHighScore;
     private TextView roundCounter;
     String TAG = "TAG";
     public int i;
     Random random = new Random();
-    public int randomNumber = random.nextInt(4)+1;
+    public int randomNumber = random.nextInt(4) + 1;
     public int tempInt;
     private TextView highScore;
 
-    private Shape roundCounterShape;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        sp = getSharedPreferences("my_HS", Activity.MODE_PRIVATE);
-        editor = sp.edit();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.simon_game);
         cpuInput.add(randomNumber);
@@ -55,19 +55,22 @@ public class SimonGame extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         setContentView(R.layout.simon_game);
-        Handler handler = new Handler();
+        initViews();
+        Log.d("cpu input", cpuInput.toString());
+        roundCounter.setText(Integer.toString(cpuInput.size()));
+        delay();
+
+    }
+
+    public void initViews() {
         btnTopRight = (Button) findViewById(R.id.topRight);
         btnTopLeft = (Button) findViewById(R.id.topLeft);
         btnBottomRight = (Button) findViewById(R.id.bottomRight);
         btnBottomLeft = (Button) findViewById(R.id.bottomLeft);
         roundCounter = (TextView) findViewById(R.id.roundCounter);
-        highScore = (TextView) findViewById(R.id.highScore);
-        Log.d("cpu input", cpuInput.toString());
-        roundCounter.setText(Integer.toString(cpuInput.size()));
-        delay();
     }
 
-    public void buttonOnClick(View view){
+    public void buttonOnClick(View view) {
 
 
         Button button = (Button) view;
@@ -81,18 +84,19 @@ public class SimonGame extends AppCompatActivity {
         userInput.add(tempInt);
         Log.d("user", userInput.toString());
 
-        if(userInput.get(i) != cpuInput.get(i)) {
+        if (userInput.get(i) != cpuInput.get(i)) {
             Intent j = new Intent(getApplicationContext(), YouLose.class);
             startActivity(j);
             Log.d(TAG, "You Lose!");
         } else {
-                i++;
+            i++;
             if (userInput.size() == cpuInput.size()) {
-                    roundWon();
+                roundWon();
                 Log.d("cpu", cpuInput.toString());
             }
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -102,13 +106,12 @@ public class SimonGame extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.Light_theme:
                 btnTopLeft.setBackgroundColor(getResources().getColor(R.color.lightthemeone));
                 btnTopRight.setBackgroundColor(getResources().getColor(R.color.lightthemetwo));
                 btnBottomLeft.setBackgroundColor(getResources().getColor(R.color.lightthemethree));
                 btnBottomRight.setBackgroundColor(getResources().getColor(R.color.lightthemefour));
-
                 break;
             case R.id.Rave_theme:
                 btnTopLeft.setBackgroundColor(getResources().getColor(R.color.darkthemeone));
@@ -129,25 +132,17 @@ public class SimonGame extends AppCompatActivity {
 
     }
 
+    public void roundWon() {
+        btnTopLeft.setOnClickListener(null);
+        btnTopRight.setOnClickListener(null);
+        btnBottomLeft.setOnClickListener(null);
+        btnBottomRight.setOnClickListener(null);
 
-    public void roundWon(){
         userInput.clear();
         i = 0;
-        cpuInput.add(random.nextInt(4)+1);
-//        int num = Integer.valueOf(roundCounter.getText().toString());
-//        num++;
-//        roundCounter.setText(Integer.toString(num));
+        cpuInput.add(random.nextInt(4) + 1);
+
         roundCounter.setText(Integer.toString(cpuInput.size()));
-
-        if(cpuInput.size() > numHighScore){
-            numHighScore = cpuInput.size();
-            editor.putInt("my_HS", numHighScore);
-            editor.apply();
-        }
-
-        highScore.setText(Integer.toString(sp.getInt("my_HS", numHighScore-1)));
-
-        Handler handler = new Handler();
 
         delay();
     }
@@ -155,24 +150,23 @@ public class SimonGame extends AppCompatActivity {
     public void delay() {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
-                @Override
-                public void run () {
-                    nextRound();
-                }
-            }
-            ,700);
+                                @Override
+                                public void run() {
+                                    nextRound();
+                                }
+                            }
+                , 700);
     }
 
-
-    public void nextRound(){
+    public void nextRound() {
 
         List<Animator> list = new ArrayList<Animator>();
 
         AnimatorSet set1 = new AnimatorSet();
 
-        for(int j = 0; j < cpuInput.size(); j++){
+        for (int j = 0; j < cpuInput.size(); j++) {
 
-            switch(cpuInput.get(j)){
+            switch (cpuInput.get(j)) {
 
                 case 1:
                     Animator anim1 = ObjectAnimator.ofFloat(btnTopLeft, "alpha", 0f, 1f);
@@ -199,27 +193,73 @@ public class SimonGame extends AppCompatActivity {
                     break;
             }
         }
+
         set1.playSequentially(list);
         set1.setInterpolator(new LinearInterpolator());
         set1.start();
+
+        set1.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                btnTopLeft.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        buttonOnClick(v);
+                    }
+                });
+                btnTopRight.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        buttonOnClick(v);
+                    }
+                });
+                btnBottomLeft.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        buttonOnClick(v);
+                    }
+                });
+                btnBottomRight.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        buttonOnClick(v);
+                    }
+                });
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
     }
 
-    public int idToButtonNum(String aString){
-       switch(aString){
-           case "topLeft":
-               return 1;
+    public int idToButtonNum(String aString) {
+        switch (aString) {
+            case "topLeft":
+                return 1;
 
-           case "topRight":
-               return 2;
+            case "topRight":
+                return 2;
 
-           case "bottomLeft":
-               return 3;
+            case "bottomLeft":
+                return 3;
 
-           case "bottomRight":
-               return 4;
+            case "bottomRight":
+                return 4;
 
-           default:
-               return 99999;
-       }
+            default:
+                return 99999;
+        }
     }
 }
